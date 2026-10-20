@@ -1,0 +1,26 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "gcc.exe - 生成和调试活动文件",  // 调试配置名称（可自定义）
+            "type": "cppvsdbg",  // 调试器类型（Windows用cppvsdbg，Linux/Mac用lldb）
+            "request": "launch",  // 调试模式（launch=启动调试，attach=附加到已有进程）
+            "program": "${fileDirname}\\bin\\${fileBasenameNoExtension}.exe",  // 要调试的可执行文件路径（对应tasks.json的输出）
+            "args": [],  // 传给程序的命令行参数（比如运行test.exe时传参数，可填["123","456"]）
+            "stopAtEntry": false,  // 是否在程序入口（main函数）处自动暂停（false=不暂停）
+            "cwd": "${fileDirname}",  // 调试工作目录
+            "environment": [],
+            "externalConsole": true,  // 是否弹出独立的终端窗口（true=弹出，方便输入输出；false=用VSCode内置终端）
+            // "MIMode": "gdb",  // 调试器内核（MinGW用gdb）
+            // "miDebuggerPath": "D:/MinGW/mingw64/bin/gdb.exe",  // gdb路径（替换为你的路径）
+            // "setupCommands": [
+            //     {
+            //         "description": "为gdb启用整齐打印",
+            //         "text": "-enable-pretty-printing",
+            //         "ignoreFailures": true
+            //     }
+            // ],
+            "preLaunchTask": "C/C++: gcc.exe 生成活动文件"  // 调试前先执行的任务（必须和tasks.json的label一致）
+        }
+    ]
+}

@@ -1,0 +1,27 @@
+//支持单文件编译
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "cppbuild",  // 任务类型（cppbuild为VSCode官方推荐）
+            "label": "C/C++: gcc.exe 生成活动文件",  // 任务名称（launch.json会引用）
+            "command": "E:/DevelopmentSoftware/MinGW/bin/gcc.exe",  // 编译命令路径
+            "args": [  // 编译参数（传给gcc的参数）
+                "-fdiagnostics-color=always",  // 彩色输出编译信息
+                "-g",  // 生成调试信息（必须加，否则无法调试）
+                "${file}",  // 当前打开的文件（单文件编译）
+                "-o",  // 指定输出文件
+                "${fileDirname}\\bin\\${fileBasenameNoExtension}.exe"  // 输出路径（如：当前目录/文件名.exe）
+            ],
+            "options": {
+                "cwd": "${fileDirname}"  // 编译工作目录（当前文件所在目录）
+            },
+            "problemMatcher": ["$gcc"],  // 识别gcc的编译错误/警告
+            "group": {
+                "kind": "build",
+                "isDefault": true  // 设置为默认构建任务（Ctrl+Shift+B可直接执行）
+            },
+            "detail": "编译器: E:/DevelopmentSoftware/MinGW/bin/gdb.exe"  // 任务描述（可选）
+        }
+    ]
+}
