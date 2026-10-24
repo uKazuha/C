@@ -7,6 +7,8 @@
             "label": "C/C++: gcc.exe 生成活动文件",  // 任务名称（launch.json会引用）
             "command": "E:/DevelopmentSoftware/MinGW/bin/gcc.exe",  // 编译命令路径
             "args": [  // 编译参数（传给gcc的参数）
+                "-finput-charset=UTF-8",
+                "-fexec-charset=UTF-8",
                 "-fdiagnostics-color=always",  // 彩色输出编译信息
                 "-g",  // 生成调试信息（必须加，否则无法调试）
                 "${file}",  // 当前打开的文件（单文件编译）

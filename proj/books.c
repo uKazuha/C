@@ -26,6 +26,7 @@ void menu(void);
 void allbooks(PBook head);
 PBook init(void);   //初始化图书管理系统，并返回一个头指针(头结点) 
 bool add(PBook head);
+bool delete(PBook head);
 
 
 
@@ -51,7 +52,11 @@ int main(void){
         case 2:
             add(head);
             break;
-        
+
+        case 3:
+            delete(head);
+            break;
+
         default:
             break;
         }
@@ -79,7 +84,7 @@ void menu(void){
 
     printf("1：查看所有图书\n");
     printf("2：新增图书\n");
-    printf("3：删除图书\n");
+    printf("3：删除图书(根据书名)\n");
     printf("4：修改图书信息\n");
     printf("5：退出\n");
 
@@ -136,7 +141,7 @@ bool add(PBook head){
     if (node != NULL)
     {
         printf("请输入书名：\n");
-        scanf("%s",node->bookname);
+        scanf("%s",node->bookname);     //此处用scanf来接收存在bug，即用户可能输入空白字符，后面再优化
         printf("请输入作者：\n");
         scanf("%s",node->author);
         printf("请输入编号：\n");
@@ -154,3 +159,49 @@ bool add(PBook head){
 
     return false;
 }
+
+
+//根据图书名字删除
+//当用户输入3指令进入到这个函数时，输入流里还有 '\n' 这个字符，需要注意
+//要么在程序开始时，先清空输入流getchar()
+//要么在正式读取时处理
+bool delete(PBook head){
+
+    while(getchar() != '\n')    continue;
+
+    char name[SIZEOFBOOKNAME];
+    PBook temp=head;  // 将temp指向头节点
+    PBook last=head;  // 由于是用单链表记录信息，所以当定位到目标结点时，需要记录上一个结点的地址。也可思考其他的方式
+
+    puts("请输入您要删除的图书名：");
+    /*
+        从标准输入中获取书名，读到允许的最长字符串或遇到结尾时停止，并在结尾加一个'\0'
+        最大能读SIZEOFBOOKNAME个字符，但是实际会读SIZEOFBOOKNAME-1个，因为要加'\0'
+
+        fgets()有以下情况：
+            1.输入换行符时，前面的字符数小于最大允许容量 → XXXXX\n\0
+    */
+    fgets(name,SIZEOFBOOKNAME,stdin);   
+
+    //由于fgets会将换行符'\n'也当作一个字符记录
+    //stelen()不会将'\0'也算上，所以得出的数就是最后一个位置的使用下标,即'\0'
+    if( name[strlen(name)-1] == '\n')   name[strlen(name)-1] = '\0';
+
+    //根据图书名，定位到目标结点
+    while( temp != NULL && strcmp(temp->bookname,name) != 0){
+        last=temp;
+        temp = temp->next;
+    }    
+        
+    if(temp == NULL){
+        fprintf(stderr,"未查到书籍 %s 的相应信息！\n",name);
+        return false;
+    }
+
+    //修改链接
+    last->next = temp->next;
+    free(temp);
+    puts("删除成功！");
+    return true;
+}
+
